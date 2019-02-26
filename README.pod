@@ -1,0 +1,69 @@
+=pod
+
+=head1 NAME
+
+Protocol::Redis::Faster - Optimized pure-perl Redis protocol parser/encoder
+
+=head1 SYNOPSIS
+
+  use Protocol::Redis::Faster;
+  my $redis = Protocol::Redis::Faster->new(api => 1) or die "API v1 not supported";
+
+  $redis->parse("+foo\r\n");
+
+  # get parsed message
+  my $message = $redis->get_message;
+  print "parsed message: ", $message->{data}, "\n";
+
+  # asynchronous parsing interface
+  $redis->on_message(sub {
+      my ($redis, $message) = @_;
+      print "parsed message: ", $message->{data}, "\n";
+  });
+
+  # parse pipelined message
+  $redis->parse("+bar\r\n-error\r\n");
+
+  # create message
+  print "Get key message:\n",
+    $redis->encode({type => '*', data => [
+       {type => '$', data => 'string'},
+       {type => '+', data => 'OK'}
+  ]});
+
+=head1 DESCRIPTION
+
+This module implements the L<Protocol::Redis> API with more optimized pure-perl
+internals. See L<Protocol::Redis> for usage documentation.
+
+This is a low level parsing module, if you are looking to use Redis in Perl,
+try L<Redis>, L<Redis::hiredis>, or L<Mojo::Redis>.
+
+=head1 BUGS
+
+Report any issues on the public bugtracker.
+
+=head1 AUTHORS
+
+Dan Book <dbook@cpan.org>
+
+Jan Henning Thorsen <jhthorsen@cpan.org>
+
+=head1 CREDITS
+
+Thanks to Sergey Zasenko <undef@cpan.org> for the original L<Protocol::Redis>
+and defining the API.
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is Copyright (c) 2019 by Dan Book, Jan Henning Thorsen.
+
+This is free software, licensed under:
+
+  The Artistic License 2.0 (GPL Compatible)
+
+=head1 SEE ALSO
+
+L<Protocol::Redis>
+
+=cut
