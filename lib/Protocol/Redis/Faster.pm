@@ -6,7 +6,7 @@ use Carp ();
 
 use parent 'Protocol::Redis';
 
-our $VERSION = '0.001';
+our $VERSION = '0.002';
 
 sub encode {
   my ($self, $input) = @_;
