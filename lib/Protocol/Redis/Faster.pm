@@ -8,21 +8,20 @@ use parent 'Protocol::Redis';
 
 our $VERSION = '0.002';
 
+my %simple_types = ('+' => 1, '-' => 1, ':' => 1);
+
 sub encode {
-  my ($self, $input) = @_;
+  my $self = shift;
 
-  my @stack = $input;
   my $encoded = '';
-  while (@stack) {
-    my $message = shift @stack;
+  while (@_) {
+    my $message = shift;
 
-    # Simple strings, errors, and integers
-    if ($message->{type} eq '+' or $message->{type} eq '-' or $message->{type} eq ':') {
-      $encoded .= $message->{type} . $message->{data} . "\r\n";
-    }
+    # Order optimized for client encoding;
+    # client commands are sent as arrays of bulk strings
 
     # Bulk strings
-    elsif ($message->{type} eq '$') {
+    if ($message->{type} eq '$') {
       my $data = $message->{data};
 
       if (defined $data) {
@@ -39,11 +38,16 @@ sub encode {
 
       if (defined $data) {
         $encoded .= '*' . scalar(@$data) . "\r\n";
-        unshift @stack, @$data;
+        unshift @_, @$data;
       }
       else {
         $encoded .= '*-1' . "\r\n";
       }
+    }
+
+    # Simple strings, errors, and integers
+    elsif (exists $simple_types{$message->{type}}) {
+      $encoded .= $message->{type} . $message->{data} . "\r\n";
     }
 
     # Invalid type
@@ -84,6 +88,9 @@ sub parse {
       substr $$buf, 0, $pos + 2, ''; # Remove type + length/data + \r\n
     }
 
+    # Order optimized for client decoding;
+    # large array replies usually contain bulk strings
+
     # Bulk strings
     if ($curr->{type} eq '$') {
       if ($curr->{len} == -1) {
@@ -100,7 +107,7 @@ sub parse {
     }
 
     # Simple strings, errors, and integers
-    elsif ($curr->{type} eq '+' or $curr->{type} eq '-' or $curr->{type} eq ':') {
+    elsif (exists $simple_types{$curr->{type}}) {
       $curr->{data} = delete $curr->{len};
     }
 
