@@ -22,10 +22,8 @@ sub encode {
 
     # Bulk strings
     if ($message->{type} eq '$') {
-      my $data = $message->{data};
-
-      if (defined $data) {
-        $encoded .= '$' . length($data) . "\r\n" . $data . "\r\n";
+      if (defined $message->{data}) {
+        $encoded .= '$' . length($message->{data}) . "\r\n" . $message->{data} . "\r\n";
       }
       else {
         $encoded .= '$-1' . "\r\n";
@@ -34,11 +32,9 @@ sub encode {
 
     # Arrays
     elsif ($message->{type} eq '*') {
-      my $data = $message->{data};
-
-      if (defined $data) {
-        $encoded .= '*' . scalar(@$data) . "\r\n";
-        unshift @_, @$data;
+      if (defined $message->{data}) {
+        $encoded .= '*' . scalar(@{$message->{data}}) . "\r\n";
+        unshift @_, @{$message->{data}};
       }
       else {
         $encoded .= '*-1' . "\r\n";
