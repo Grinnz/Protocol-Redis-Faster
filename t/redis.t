@@ -8,6 +8,7 @@ protocol_redis_ok 'Protocol::Redis::Faster', 1;
 
 my $protocol = Protocol::Redis::Faster->new(api => 1);
 
+# Allow on_message callback to call on_message or parse
 my @messages;
 $protocol->on_message(sub {
   my ($protocol, $message) = @_;
