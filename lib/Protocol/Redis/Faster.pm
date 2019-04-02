@@ -6,7 +6,7 @@ use Carp ();
 
 use parent 'Protocol::Redis';
 
-our $VERSION = '0.002';
+our $VERSION = '0.003';
 
 my %simple_types = ('+' => 1, '-' => 1, ':' => 1);
 
