@@ -18,7 +18,7 @@ my %WriteMakefileArgs = (
   "NAME" => "Protocol::Redis::Faster",
   "PREREQ_PM" => {
     "Carp" => 0,
-    "Protocol::Redis" => "1.0000",
+    "Protocol::Redis" => "1.0021",
     "parent" => 0
   },
   "TEST_REQUIRES" => {
