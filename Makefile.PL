@@ -7,7 +7,7 @@ use 5.008001;
 use ExtUtils::MakeMaker;
 
 my %WriteMakefileArgs = (
-  "ABSTRACT" => "Optimized pure-perl Redis protocol parser/encoder",
+  "ABSTRACT" => "Optimized pure-perl Redis protocol parser/encoder (DEPRECATED)",
   "AUTHOR" => "Dan Book <dbook\@cpan.org>, Jan Henning Thorsen <jhthorsen\@cpan.org>",
   "CONFIGURE_REQUIRES" => {
     "ExtUtils::MakeMaker" => 0
@@ -17,7 +17,6 @@ my %WriteMakefileArgs = (
   "MIN_PERL_VERSION" => "5.008001",
   "NAME" => "Protocol::Redis::Faster",
   "PREREQ_PM" => {
-    "Carp" => 0,
     "Protocol::Redis" => "1.0000",
     "parent" => 0
   },
@@ -35,7 +34,6 @@ my %WriteMakefileArgs = (
 
 
 my %FallbackPrereqs = (
-  "Carp" => 0,
   "ExtUtils::MakeMaker" => 0,
   "File::Spec" => 0,
   "Protocol::Redis" => "1.0000",
