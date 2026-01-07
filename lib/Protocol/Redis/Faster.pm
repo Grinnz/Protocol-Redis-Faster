@@ -5,7 +5,7 @@ use warnings;
 
 use parent 'Protocol::Redis';
 
-our $VERSION = '0.004';
+our $VERSION = '0.005';
 
 1;
 
