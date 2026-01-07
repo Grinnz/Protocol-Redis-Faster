@@ -11,7 +11,7 @@ our $VERSION = '0.004';
 
 =head1 NAME
 
-Protocol::Redis::Faster - Optimized pure-perl Redis protocol parser/encoder
+Protocol::Redis::Faster - Optimized pure-perl Redis protocol parser/encoder (DEPRECATED)
 
 =head1 DESCRIPTION
 
